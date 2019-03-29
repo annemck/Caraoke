@@ -12,10 +12,10 @@ class TestRoom < MiniTest::Test
     @song2 = Song.new("Shake It Off", "Taylor Swift")
     @playlist = [@song1, @song2]
     
-    @room = Room.new(@playlist, 5)
+    @room = Room.new(@playlist, 3, 20)
     
-    @guest = Guest.new("Joe")
-    @guest2 = Guest.new("Mary")
+    @guest = Guest.new("Joe", 30)
+    @guest2 = Guest.new("Mary", 50)
   end
   
   def test_room_has_playlist
@@ -26,7 +26,7 @@ class TestRoom < MiniTest::Test
   end
   
   def test_room_has_max_number_of_guests
-    assert_equal(5, @room.max_guests)
+    assert_equal(3, @room.max_guests)
   end
   
   def test_guest_can_check_in
@@ -47,5 +47,10 @@ class TestRoom < MiniTest::Test
     @room.add_song_to_playlist(@song3)
     assert_equal("Johnny Cash", @playlist[2].artist)
   end
+  
+  def test_room_has_cost
+    assert_equal(20, @room.room_cost)
+  end
+  
   
 end

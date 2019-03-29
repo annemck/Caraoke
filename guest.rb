@@ -1,9 +1,10 @@
 class Guest
   
-  attr_reader :name
+  attr_reader :name, :money
   
-  def initialize(name)
+  def initialize(name, money)
     @name = name
+    @money = money
   end
   
   def choose_caraoke_room(guest, room_name)
