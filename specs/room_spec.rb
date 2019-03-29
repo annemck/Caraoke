@@ -3,6 +3,7 @@ require('minitest/rg')
 require_relative('../room.rb')
 require_relative('../song.rb')
 require_relative('../guest.rb')
+require('pry')
 
 
 class TestRoom < MiniTest::Test
@@ -13,6 +14,7 @@ class TestRoom < MiniTest::Test
     @playlist = [@song1, @song2]
     
     @room = Room.new(@playlist, 3, 20)
+    @room2 = Room.new(@playlist, 5, 20)
     
     @guest = Guest.new("Joe", 30)
     @guest2 = Guest.new("Mary", 50)
@@ -31,15 +33,15 @@ class TestRoom < MiniTest::Test
   
   def test_guest_can_check_in
     @room.guest_check_in(@guest)
-    assert_equal("Joe", @room.number_of_guests[0])
+    assert_equal("Joe", @room.list_of_guests[0])
   end
   
   def test_guest_can_check_out
     @room.guest_check_in(@guest)
     @room.guest_check_in(@guest2)
-    assert_equal("Joe", @room.number_of_guests[0])
+    assert_equal("Joe", @room.list_of_guests[0])
     @room.guest_check_out(@guest)
-    assert_equal(["Mary"], @room.number_of_guests)
+    assert_equal(["Mary"], @room.list_of_guests)
   end
   
   def test_song_can_be_added_to_room
@@ -52,5 +54,28 @@ class TestRoom < MiniTest::Test
     assert_equal(20, @room.room_cost)
   end
   
+  def test_if_room_full
+    @room.guest_check_in(@guest)
+    @room.guest_check_in(@guest)
+    @room.guest_check_in(@guest)
+    assert_equal(true, @room.room_full)
+  end
+  
+  def test_room_not_full
+    @room.guest_check_in(@guest)
+    assert_equal(false, @room.room_full)
+  end
+  
+  def test_guest_asked_for_new_room_if_full
+    @room.guest_check_in(@guest)
+    @room.guest_check_in(@guest)
+    @room.guest_check_in(@guest)
+    assert_equal("Room full. Please choose another room.", @room.guest_check_in(@guest))
+  end
+  
+  def test_guest_charged
+    @room.charge_guest(@guest)
+    assert_equal(10, @guest.money)
+  end
   
 end
