@@ -1,0 +1,5 @@
+class FrontDesk
+  
+  
+  
+end
