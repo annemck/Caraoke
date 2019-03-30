@@ -4,6 +4,7 @@ require_relative('../guest.rb')
 require_relative('../room.rb')
 require_relative('../song.rb')
 require_relative('../front_desk.rb')
+require_relative('../drink.rb')
 require('pry')
 
 
@@ -15,7 +16,8 @@ class TestGuest < MiniTest::Test
     @playlist = [@song, @song2]
     @guest = Guest.new("Joe", 30, @song)
     @room = Room.new(@playlist, 5, 20)
-    @caraoke = FrontDesk.new(100)
+    @drink = Drink.new("Beer", 3)
+    @caraoke = FrontDesk.new(100, @drink)
   end
   
   def test_guest_has_name

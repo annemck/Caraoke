@@ -1,9 +1,14 @@
 class FrontDesk
   
-  attr_accessor :till
+  attr_accessor :till, :drink_selection
   
-  def initialize(till)
+  def initialize(till, drink_selection)
     @till = till
+    @drink_selection = drink_selection
+  end
+  
+  def add_song_to_playlist(room_name, song)
+    room_name.playlist << song
   end
   
   def guest_check_in(guest, room_name)

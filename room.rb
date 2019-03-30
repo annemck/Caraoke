@@ -10,10 +10,6 @@ class Room
     @room_cost = room_cost
   end
   
-  def add_song_to_playlist(song)
-    @playlist << song
-  end
-  
   def room_full
     @list_of_guests.count == @max_guests
   end

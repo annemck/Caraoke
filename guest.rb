@@ -18,8 +18,8 @@ class Guest
     bar.guest_check_out(guest, room_name)
   end
   
-  def fav_song_on_playlist(room)
-    return "Woohoo!" if room.playlist.include?(@fav_song)
+  def fav_song_on_playlist(room_name)
+    return "Woohoo!" if room_name.playlist.include?(@fav_song)
   end
   
 end
