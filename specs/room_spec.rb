@@ -16,8 +16,8 @@ class TestRoom < MiniTest::Test
     @room = Room.new(@playlist, 3, 20)
     @room2 = Room.new(@playlist, 5, 20)
     
-    @guest = Guest.new("Joe", 30)
-    @guest2 = Guest.new("Mary", 50)
+    @guest = Guest.new("Joe", 30, @song1)
+    @guest2 = Guest.new("Mary", 50, @song2)
   end
   
   def test_room_has_playlist

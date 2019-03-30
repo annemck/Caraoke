@@ -3,14 +3,17 @@ require('minitest/rg')
 require_relative('../guest.rb')
 require_relative('../room.rb')
 require_relative('../song.rb')
+require('pry')
 
 
 class TestGuest < MiniTest::Test
   
   def setup
-    @guest = Guest.new("Joe", 30)
-    @song = Song.new("Hurts", "Johny Cash")
-    @room = Room.new(@song, 5, 20)
+    @song = Song.new("Hurt", "Johny Cash")
+    @song2 = Song.new("Shake It Off", "Taylor Swift")
+    @playlist = [@song, @song2]
+    @guest = Guest.new("Joe", 30, @song)
+    @room = Room.new(@playlist, 5, 20)
   end
   
   def test_guest_has_name
@@ -30,6 +33,14 @@ class TestGuest < MiniTest::Test
   
   def test_guest_has_money
     assert_equal(30, @guest.money)
+  end
+  
+  def test_guest_has_fav_song
+    assert_equal("Hurt", @guest.fav_song.title)
+  end
+  
+  def test_customer_goes_woohoo
+    assert_equal("Woohoo!", @guest.fav_song_on_playlist(@room))
   end
   
 end
