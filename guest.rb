@@ -10,12 +10,12 @@ class Guest
     @fav_song = fav_song
   end
   
-  def choose_caraoke_room(guest, room_name)
-    room_name.guest_check_in(guest)
+  def choose_caraoke_room(guest, bar, room_name)
+    bar.guest_check_in(guest, room_name)
   end
   
-  def leave_caraoke(guest, room_name)
-    room_name.guest_check_out(guest)
+  def leave_caraoke(guest, bar, room_name)
+    bar.guest_check_out(guest, room_name)
   end
   
   def fav_song_on_playlist(room)
