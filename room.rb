@@ -16,4 +16,8 @@ class Room
     @list_of_guests.count == @max_guests
   end
   
+  def amend_tab(drink, tab_name)
+    tab_name.tab_total += drink.cost
+  end
+  
 end

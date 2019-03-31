@@ -5,6 +5,7 @@ require_relative('../room.rb')
 require_relative('../guest.rb')
 require_relative('../song.rb')
 require_relative('../drink.rb')
+require_relative('../bar_tab.rb')
 
 
 class TestFrontDesk < MiniTest::Test
@@ -26,6 +27,8 @@ class TestFrontDesk < MiniTest::Test
     @room.drink_menu << @drink
     @room.drink_menu << @drink2
     @caraoke = FrontDesk.new(100, @drink_list)
+    
+    @tab = BarTab.new(@guest, @room)
   end
   
   def test_desk_has_till
@@ -40,9 +43,9 @@ class TestFrontDesk < MiniTest::Test
   def test_guest_can_check_out
     @caraoke.guest_check_in(@guest, @room)
     @caraoke.guest_check_in(@guest2, @room)
-    @guest.order_drink(@drink, @room)
+    @guest.order_drink(@drink, @room, @tab)
     assert_equal("Joe", @room.list_of_guests[0])
-    @caraoke.guest_check_out(@guest, @room)
+    @caraoke.guest_check_out(@guest, @room, @tab)
     assert_equal(["Mary"], @room.list_of_guests)
     assert_equal(123, @caraoke.till)
   end
@@ -79,11 +82,11 @@ class TestFrontDesk < MiniTest::Test
   end
   
   def test_guest_charged_for_drinks
-    @guest.order_drink(@drink, @room)
-    @caraoke.charge_guest_for_drinks(@guest)
+    @guest.order_drink(@drink, @room, @tab)
+    @caraoke.charge_guest_for_drinks(@guest, @tab)
     assert_equal(103, @caraoke.till)
     assert_equal(27, @guest.money)
-    assert_equal(0, @guest.running_tab)
+    assert_equal(0, @tab.tab_total)
   end
   
 end

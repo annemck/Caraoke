@@ -19,10 +19,10 @@ class FrontDesk
     end
   end
   
-  def guest_check_out(guest, room_name)
+  def guest_check_out(guest, room_name, tab_name)
     room_name.list_of_guests.delete(guest.name)
     charge_guest(guest, room_name)
-    charge_guest_for_drinks(guest)
+    charge_guest_for_drinks(guest, tab_name)
   end
   
   def charge_guest(guest, room_name)
@@ -38,10 +38,10 @@ class FrontDesk
     @drink_selection << drink
   end
   
-  def charge_guest_for_drinks(guest)
-    guest.money -= guest.running_tab
-    @till += guest.running_tab
-    guest.running_tab = 0
+  def charge_guest_for_drinks(guest, tab_name)
+    guest.money -= tab_name.tab_total
+    @till += tab_name.tab_total
+    tab_name.tab_total = 0
   end
   
   

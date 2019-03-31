@@ -5,6 +5,7 @@ require_relative('../song.rb')
 require_relative('../guest.rb')
 require_relative('../front_desk.rb')
 require_relative('../drink.rb')
+require_relative('../bar_tab.rb')
 require('pry')
 
 
@@ -22,6 +23,8 @@ class TestRoom < MiniTest::Test
     @guest = Guest.new("Joe", 30, @song1)
     
     @caraoke = FrontDesk.new(100, @drink)
+    
+    @tab = BarTab.new(@guest, @room)
   end
   
   def test_room_has_playlist
@@ -57,6 +60,11 @@ class TestRoom < MiniTest::Test
   def test_room_has_drink_menu
     @caraoke.add_drink_to_room_menu(@drink, @room)
     assert_equal("Beer", @room.drink_menu[0].drink_name)
-  end 
+  end
+  
+  def test_tab_changed
+    @room.amend_tab(@drink, @tab)
+    assert_equal(3, @tab.tab_total)
+  end
 
 end
