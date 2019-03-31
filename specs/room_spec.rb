@@ -15,11 +15,11 @@ class TestRoom < MiniTest::Test
     @song2 = Song.new("Shake It Off", "Taylor Swift")
     @playlist = [@song1, @song2]
     
+    @drink = Drink.new("Beer", 3)
+    
     @room = Room.new(@playlist, 3, 20)
     
     @guest = Guest.new("Joe", 30, @song1)
-    
-    @drink = Drink.new("Beer", 3)
     
     @caraoke = FrontDesk.new(100, @drink)
   end
@@ -53,5 +53,10 @@ class TestRoom < MiniTest::Test
     @caraoke.guest_check_in(@guest, @room)
     assert_equal("Joe", @room.list_of_guests[0])
   end
+  
+  def test_room_has_drink_menu
+    @caraoke.add_drink_to_room_menu(@drink, @room)
+    assert_equal("Beer", @room.drink_menu[0].drink_name)
+  end 
 
 end

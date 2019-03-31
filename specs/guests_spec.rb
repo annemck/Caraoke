@@ -47,4 +47,14 @@ class TestGuest < MiniTest::Test
     assert_equal("Woohoo!", @guest.fav_song_on_playlist(@room))
   end
   
+  def test_guest_can_buy_drink
+    @caraoke.add_drink_to_room_menu(@drink, @room)
+    @guest.order_drink(@drink, @room)
+    assert_equal(3, @guest.running_tab)
+  end
+  
+  def test_tab_starts_0
+    assert_equal(0, @guest.running_tab)
+  end
+  
 end

@@ -19,9 +19,12 @@ class TestFrontDesk < MiniTest::Test
     
     @drink = Drink.new("Beer", 3)
     @drink2 = Drink.new("Wine", 5)
+    @drink3 = Drink.new("Cider", 3)
     @drink_list = [@drink, @drink2]
     
     @room = Room.new(@playlist, 3, 20)
+    @room.drink_menu << @drink
+    @room.drink_menu << @drink2
     @caraoke = FrontDesk.new(100, @drink_list)
   end
   
@@ -37,14 +40,17 @@ class TestFrontDesk < MiniTest::Test
   def test_guest_can_check_out
     @caraoke.guest_check_in(@guest, @room)
     @caraoke.guest_check_in(@guest2, @room)
+    @guest.order_drink(@drink, @room)
     assert_equal("Joe", @room.list_of_guests[0])
     @caraoke.guest_check_out(@guest, @room)
     assert_equal(["Mary"], @room.list_of_guests)
+    assert_equal(123, @caraoke.till)
   end
   
   def test_guest_charged
     @caraoke.charge_guest(@guest, @room)
     assert_equal(10, @guest.money)
+    assert_equal(120, @caraoke.till)
   end
   
   def test_guest_asked_for_new_room_if_full
@@ -60,6 +66,24 @@ class TestFrontDesk < MiniTest::Test
   
   def test_desk_has_drink_selection
     assert_equal("Wine", @caraoke.drink_selection[1].drink_name)
+  end
+  
+  def test_drink_can_be_added_to_menu
+    @caraoke.add_drink_to_room_menu(@drink3, @room)
+    assert_equal("Cider", @room.drink_menu[2].drink_name)
+  end
+  
+  def test_add_drink_to_drink_selection
+    @caraoke.add_drink_to_selection(@drink3)
+    assert_equal("Cider", @caraoke.drink_selection[2].drink_name)
+  end
+  
+  def test_guest_charged_for_drinks
+    @guest.order_drink(@drink, @room)
+    @caraoke.charge_guest_for_drinks(@guest)
+    assert_equal(103, @caraoke.till)
+    assert_equal(27, @guest.money)
+    assert_equal(0, @guest.running_tab)
   end
   
 end
